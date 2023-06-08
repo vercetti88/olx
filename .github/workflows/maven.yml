@@ -40,7 +40,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker push vercetti88/olxappimage:tagname
+          tags: vercetti88/olxappimage:commit1
 
 #      - name: Push Docker image
 #        uses: docker/build-push-action@v3
