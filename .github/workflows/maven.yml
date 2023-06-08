@@ -19,15 +19,6 @@ jobs:
         with:
           java-version: '11'
 
-          
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'    
-
-      - name: Build and test
-        run: mvn compile test
-
       - name: Package
         run: mvn package
 
