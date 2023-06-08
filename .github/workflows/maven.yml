@@ -13,13 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+
+      - name: Set up Maven
+        run: |
+          curl -fsSL https://apache.osuosl.org/maven/maven-3/3.11.0/binaries/apache-maven-3.11.0-bin.tar.gz -o maven.tar.gz
+          tar -xf maven.tar.gz
+          export PATH=$(pwd)/apache-maven-3.11.0/bin:$PATH
+          mvn --version
+
       - name: Install JDK 17
         run: sudo apt-get install -y openjdk-17-jdk
 
-      - name: Set up Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
 
       - name: Package
         run: mvn package
