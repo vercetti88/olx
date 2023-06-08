@@ -13,9 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-        runs:
-          using: 'node16'
-          main: 'main.js'
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
