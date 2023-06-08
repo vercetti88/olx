@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
+          distribution: ubuntu-latest
           
       - name: Use Node.js 16.x
         uses: actions/setup-node@v2
