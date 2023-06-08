@@ -40,31 +40,27 @@ public class ProductService {
 
 
     @Transactional
-    public void saveProduct(Product product,
-                            MultipartFile file1,
-                            MultipartFile file2,
-                            MultipartFile file3) throws IOException {
-        Image image1;
-        Image image2;
-        Image image3;
-        if (file1.getSize() != 0) {
-            image1 = toImageEntity(file1);
-            image1.setPreviewImage(true);
-            product.addImageToProduct(image1);
-        }
-        if (file2.getSize() != 0) {
-            image2 = toImageEntity(file2);
-            product.addImageToProduct(image2);
-        }
-        if (file3.getSize() != 0) {
-            image3 = toImageEntity(file3);
-            product.addImageToProduct(image3);
-        }
+    public void saveProduct(Product product, MultipartFile[] files) throws IOException {
+        setAttributesToImages(files, product);
         log.info("Saving new Product. Title: {}; Author: {}", product.getTitle(), product.getAuthor());
         Product reserveProduct = productRepository.save(product);
         reserveProduct.setPreviewImageId(reserveProduct.getImages().get(0).getId());
         reserveProduct.setUser(userService.getById(userContext.getId()));
         productRepository.save(reserveProduct);
+    }
+    @Transactional
+    public void saveProduct(Product product) throws IOException {
+        log.info("Saving new Product. Title: {}; Author: {}", product.getTitle(), product.getAuthor());
+        product.setUser(userService.getById(userContext.getId()));
+        productRepository.save(product);
+    }
+
+    public void setAttributesToImages (MultipartFile[] files, Product product) throws IOException {
+        for(int i = 0; i < files.length && files[0].getSize() !=0; i++) {
+            Image image = toImageEntity(files[i]);
+            product.addImageToProduct(image);
+            if( i == 0 ) image.setPreviewImage(true);
+        }
     }
 
     private Image toImageEntity(MultipartFile file) throws IOException {

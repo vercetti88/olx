@@ -1,6 +1,7 @@
 package com.example.olx.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "products")
 @NoArgsConstructor
+@Builder
 public class Product {
 
     @Id
@@ -36,10 +38,12 @@ public class Product {
     private String author;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    @JsonIgnore
     private List<Image> images = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     private Long previewImageId;
@@ -54,6 +58,10 @@ public class Product {
     public void addImageToProduct(Image image) {
         image.setProduct(this);
         images.add(image);
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof Product;
     }
 
 }

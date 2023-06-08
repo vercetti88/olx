@@ -5,6 +5,8 @@ import com.example.olx.security.authUtils.AuthenticationRequest;
 import com.example.olx.security.authUtils.AuthenticationResponse;
 import com.example.olx.security.authUtils.RegisterRequest;
 import com.example.olx.services.UserService;
+import com.sun.tools.jconsole.JConsoleContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/api/v1/auth")
+@RestController
+@RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -24,18 +27,11 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String registration(RegisterRequest request, Model model) {
-        model.addAttribute("jwtToken",  "Bearer " + userService.register(request).getToken());
-        return "redirect:/hellopage";
+    public ResponseEntity<AuthenticationResponse> registration(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(userService.register(request));
     }
 
-    @GetMapping("/registration")
-    public String registerView() {
-        return "registration";
-    }
-
-
-    @PostMapping("/authenticate")
+    @PostMapping("/auth")
     public ResponseEntity<AuthenticationResponse> authentication( @RequestBody AuthenticationRequest authRequest ) {
         return ResponseEntity.ok(userService.authenticate(authRequest));
     }
