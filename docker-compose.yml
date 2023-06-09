@@ -10,7 +10,7 @@ services:
       - 'POSTGRES_DB=olx_clone_db'
 
   app:
-    build: ./
+    image: vercetti88/olxappimage:commit1
     container_name: 'java-olx-app'
     ports:
       - "8080:8080"

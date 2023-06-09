@@ -2,6 +2,7 @@ package com.example.olx.repositories;
 
 import com.example.olx.models.Product;
 import com.example.olx.models.User;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
+@Slf4j
 class ProductRepositoryTest {
 
     @Autowired
@@ -42,6 +44,7 @@ class ProductRepositoryTest {
         //when
         List<Product> products = underTest.findByTitle("Title");
 
+        log.info("Test is running");
         //then
         for(Product product : products)
             assertThat(product.getTitle()).isEqualTo("Title");
